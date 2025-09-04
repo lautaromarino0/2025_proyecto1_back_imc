@@ -1,7 +1,6 @@
-import { Test, TestingModule } from "@nestjs/testing";
-import { ImcService } from "./imc.service";
-import { CalcularImcDto } from "./dto/calcular-imc-dto";
-
+import { Test, TestingModule } from '@nestjs/testing';
+import { ImcService } from './imc.service';
+import { CalcularImcDto } from './dto/calcular-imc-dto';
 
 describe('ImcService', () => {
   let service: ImcService;
@@ -31,6 +30,12 @@ describe('ImcService', () => {
     expect(result.imc).toBeCloseTo(16.33, 2);
     expect(result.categoria).toBe('Bajo peso');
   });
+  it('should return Normal for 18.5 <= IMC < 25', () => {
+    const dto: CalcularImcDto = { altura: 1.75, peso: 68 };
+    const result = service.calcularImc(dto);
+    expect(result.imc).toBeCloseTo(22.2, 2);
+    expect(result.categoria).toBe('Normal');
+  });
 
   it('should return Sobrepeso for 25 <= IMC < 30', () => {
     const dto: CalcularImcDto = { altura: 1.75, peso: 80 };
@@ -44,5 +49,19 @@ describe('ImcService', () => {
     const result = service.calcularImc(dto);
     expect(result.imc).toBeCloseTo(32.65, 2);
     expect(result.categoria).toBe('Obeso');
+  });
+
+  it('should return error for non-positive altura', () => {
+    const dto: CalcularImcDto = { altura: 0, peso: 70 };
+    expect(() => service.calcularImc(dto)).toThrow(
+      'Altura must be greater than 0',
+    );
+  });
+
+  it('should return error for non-positive peso', () => {
+    const dto: CalcularImcDto = { altura: 1.75, peso: -10 };
+    expect(() => service.calcularImc(dto)).toThrow(
+      'Peso must be greater than 0',
+    );
   });
 });
