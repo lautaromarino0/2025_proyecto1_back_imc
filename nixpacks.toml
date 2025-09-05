@@ -1,0 +1,5 @@
+[phases.setup]
+node_version = "20"
+
+[phases.install]
+command = "npm ci"
