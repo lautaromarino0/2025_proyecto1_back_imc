@@ -17,7 +17,12 @@ export class ImcController {
 
   @UseGuards(JwtAuthGuard)
   @Post('calcular')
-  calcular(@Body(ValidationPipe) data: CalcularImcDto, @Req() req) {
+  calcular(
+    @Body(ValidationPipe)
+    data: CalcularImcDto,
+    @Req()
+    req,
+  ) {
     // req.user.id es el usuario autenticado
     return this.imcService.calcularImc({ ...data, userId: req.user.id });
   }
