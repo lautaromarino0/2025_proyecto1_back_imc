@@ -15,10 +15,10 @@ export class ImcService {
     const { altura, peso, userId } = data;
     // Validaciones
     if (altura <= 0) {
-      throw new Error('Altura must be greater than 0');
+      throw new Error('La altura debe ser mayor a 0 metros');
     }
     if (peso <= 0) {
-      throw new Error('Peso must be greater than 0');
+      throw new Error('El peso debe ser mayor a 0 kg');
     }
     const imc = peso / (altura * altura);
     const imcRedondeado = Math.round(imc * 100) / 100; // Dos decimales

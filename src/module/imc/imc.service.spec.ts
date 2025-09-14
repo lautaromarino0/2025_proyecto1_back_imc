@@ -38,18 +38,26 @@ describe('ImcService', () => {
     const repo = (service as any).imcRepository;
     jest.spyOn(service, 'guardarImc').mockImplementation(jest.fn());
     service.calcularImc(dto);
-    expect(service.guardarImc).toHaveBeenCalledWith(expect.objectContaining({
-      altura: dto.altura,
-      peso: dto.peso,
-      imc: expect.any(Number),
-      categoria: expect.any(String),
-      userId: dto.userId,
-    }));
+    expect(service.guardarImc).toHaveBeenCalledWith(
+      expect.objectContaining({
+        altura: dto.altura,
+        peso: dto.peso,
+        imc: expect.any(Number),
+        categoria: expect.any(String),
+        userId: dto.userId,
+      }),
+    );
   });
 
   it('should call imcRepository.save when guardarImc is called', async () => {
     const repo = (service as any).imcRepository;
-    const guardarDto: GuardarImcDto = { altura: 1.75, peso: 70, imc: 22.86, categoria: 'Normal', userId: 1 };
+    const guardarDto: GuardarImcDto = {
+      altura: 1.75,
+      peso: 70,
+      imc: 22.86,
+      categoria: 'Normal',
+      userId: 1,
+    };
     await service.guardarImc(guardarDto);
     expect(repo.save).toHaveBeenCalledWith(guardarDto);
   });
@@ -90,14 +98,14 @@ describe('ImcService', () => {
   it('should return error for non-positive altura', () => {
     const dto = { altura: 0, peso: 70, userId: 1 };
     expect(() => service.calcularImc(dto)).toThrow(
-      'Altura must be greater than 0',
+      'La altura debe ser mayor a 0 metros',
     );
   });
 
   it('should return error for non-positive peso', () => {
     const dto = { altura: 1.75, peso: -10, userId: 1 };
     expect(() => service.calcularImc(dto)).toThrow(
-      'Peso must be greater than 0',
+      'El peso debe ser mayor a 0 kg',
     );
   });
 });
