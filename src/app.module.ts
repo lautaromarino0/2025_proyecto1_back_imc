@@ -6,13 +6,14 @@ import { AppController } from './app.controller';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './module/auth/auth.module';
 import { UserModule } from './module/user/user.module';
+import { StatsModule } from './module/stats/stats.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     ImcModule,
     TypeOrmModule.forRoot({
-      type: 'mysql',
+      type: 'postgres',
       host: process.env.DB_HOST,
       port: +(process.env.DB_PORT ?? 3306),
       username: process.env.DB_USERNAME,
@@ -23,6 +24,7 @@ import { UserModule } from './module/user/user.module';
     }),
     AuthModule,
     UserModule,
+    StatsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
