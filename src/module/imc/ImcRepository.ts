@@ -31,11 +31,17 @@ export class ImcRepository implements IImcRepository {
     try {
       const imcs = await this.imcRepository.find({
         where: { user: { id: userId } },
-        order: { fecha: 'DESC' }, // No se si poner el relation con user, porque te trae toda la info
+        relations: ['user'],
+        order: { fecha: 'DESC' },
       });
       return imcs.map((imc: Imc) => ({
-        ...imc,
-        userId: imc.user?.id,
+        id: imc.id,
+        peso: imc.peso,
+        altura: imc.altura,
+        imc: imc.imc,
+        categoria: imc.categoria,
+        fecha: imc.fecha,
+        userId: imc.user.id,
       })) as MostrarImcDto[];
     } catch {
       throw new InternalServerErrorException(

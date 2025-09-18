@@ -1,6 +1,7 @@
+import { CreateUserDto } from './dto/create-user.dto';
+import { UserDto } from './dto/user.dto';
+
 export interface IUserRepository {
-  create(email: string, password: string): Promise<void>;
-  findByEmail(
-    email: string,
-  ): Promise<{ email: string; password: string } | null>;
+  create(data: CreateUserDto): Promise<void>;
+  findByEmail(email: string): Promise<UserDto | null>;
 }
